@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
+from django.contrib.staticfiles.views import serve as static_serve
 from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
@@ -40,6 +41,7 @@ router.register('appeals', AppealViewSet, basename='api-appeals')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('static/<path:path>', static_serve, {'insecure': True}),
     path('', home, name='home'),
     path('appeals/', appeal_views.index, name='appeals'),
     path('appeals/create/', appeal_views.create, name='appeal-create'),
