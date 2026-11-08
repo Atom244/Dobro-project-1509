@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Кабинет сотрудника — ПравоСПб{% endblock %}
+{% block content %}
+<div class="staff-hero">
+  <div class="container">
+    <div class="staff-heading">
+      <div><span class="eyebrow staff-eyebrow">Рабочее пространство</span><h1>Кабинет сотрудника</h1><p>Управление обращениями жителей в едином интерфейсе.</p></div>
+      <a class="btn btn-light" href="/admin/">Расширенная админ-панель →</a>
+    </div>
+  </div>
+</div>
+<div class="container section staff-section">
+  <div class="staff-stats">
+    <a class="staff-stat" href="{% url 'staff-dashboard' %}"><span>Все обращения</span><strong>{{ total_count }}</strong><small>за всё время</small></a>
+    <a class="staff-stat staff-stat-warning" href="?status=new"><span>Новые</span><strong>{{ new_count }}</strong><small>требуют внимания</small></a>
+    <a class="staff-stat staff-stat-blue" href="?status=in_progress"><span>В работе</span><strong>{{ in_progress_count }}</strong><small>активных обращений</small></a>
+    <a class="staff-stat staff-stat-green" href="?status=resolved"><span>Решены</span><strong>{{ resolved_count }}</strong><small>готовы к закрытию</small></a>
+  </div>
+  <div class="staff-toolbar">
+    <div><h2>Обращения жителей</h2><p>Изменяйте статус и оставляйте комментарии прямо на сайте.</p></div>
+    <form class="staff-filters" method="get"><input name="q" value="{{ query }}" placeholder="Номер, тема или заявитель"><select name="status"><option value="">Все статусы</option>{% for value,label in status_choices %}<option value="{{ value }}" {% if selected_status == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select><button class="btn btn-primary">Применить</button></form>
+  </div>
+  <div class="staff-table-wrap">
+    <table class="staff-table"><thead><tr><th>Обращение</th><th>Заявитель</th><th>Категория</th><th>Создано</th><th>Статус и действие</th></tr></thead><tbody>
+    {% for appeal in appeals %}<tr><td><a class="appeal-number" href="{% url 'appeal-detail' appeal.public_id %}">{{ appeal.public_id }}</a><strong>{{ appeal.subject }}</strong></td><td>{{ appeal.user.get_full_name|default:appeal.user.username }}<small>{{ appeal.user.email|default:appeal.user.username }}</small></td><td>{{ appeal.category.name }}</td><td>{{ appeal.created_at|date:'d.m.Y H:i' }}</td><td><form method="post" action="{% url 'staff-update' appeal.public_id %}" class="status-form">{% csrf_token %}<select name="status">{% for value,label in status_choices %}<option value="{{ value }}" {% if appeal.status == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select><input name="comment" placeholder="Комментарий (необязательно)"><button class="btn btn-sm btn-primary">Сохранить</button></form></td></tr>{% empty %}<tr><td colspan="5"><div class="empty">По выбранным условиям обращений нет.</div></td></tr>{% endfor %}
+    </tbody></table>
+  </div>
+</div>
+{% endblock %}

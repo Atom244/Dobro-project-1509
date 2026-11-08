@@ -28,3 +28,16 @@ class AppealForm(forms.ModelForm):
         if file and file.size > 5 * 1024 * 1024:
             raise forms.ValidationError('Размер файла не должен превышать 5 МБ.')
         return file
+
+
+class StaffAppealUpdateForm(forms.ModelForm):
+    comment = forms.CharField(
+        label='Комментарий сотрудника',
+        required=False,
+        widget=forms.Textarea(attrs={'rows': 3, 'placeholder': 'Что нужно сообщить заявителю?'}),
+    )
+
+    class Meta:
+        model = Appeal
+        fields = ['status']
+        labels = {'status': 'Новый статус'}

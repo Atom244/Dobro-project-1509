@@ -17,6 +17,8 @@ python manage.py runserver
 
 Основные адреса: `/`, `/appeals/`, `/parking/`, `/rights/`, `/news/`, `/faq/`, `/api/docs/`, `/admin/`.
 
+Для пользователей с флагом `is_staff` в шапке появляется **Кабинет сотрудника** (`/staff/appeals/`). Это рабочий интерфейс поверх сайта: сводка по статусам, поиск обращений, фильтры, просмотр карточек и изменение статуса с комментарием. Полная техническая настройка контента и пользователей по-прежнему доступна в `/admin/`.
+
 ## Docker
 
 Создайте `.env` на основе `.env.example`, задайте `DATABASE_URL=postgresql://pravo_spb:change-me@postgres:5432/pravo_spb`, затем выполните `docker compose up --build`. Docker Desktop должен быть установлен; в текущей среде Docker не доступен.
