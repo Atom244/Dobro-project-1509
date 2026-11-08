@@ -1,5 +1,5 @@
 from rest_framework import permissions, viewsets
-from .models import Appeal
+from .models import Appeal, AppealStatusHistory
 from .serializers import AppealSerializer
 
 
@@ -18,4 +18,12 @@ class AppealViewSet(viewsets.ModelViewSet):
         return Appeal.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        appeal = serializer.save(user=self.request.user)
+        AppealStatusHistory.objects.create(appeal=appeal, new_status=appeal.status, comment='Обращение зарегистрировано через API')
+
+    def perform_update(self, serializer):
+        appeal = self.get_object()
+        old_status = appeal.status
+        appeal = serializer.save()
+        if old_status != appeal.status:
+            AppealStatusHistory.objects.create(appeal=appeal, old_status=old_status, new_status=appeal.status, comment='Статус изменён через API')

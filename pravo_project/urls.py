@@ -21,6 +21,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
+from accounts.forms import LoginForm
 from accounts.views import profile, register
 from appeals.api import AppealViewSet
 from parking.api import ParkingViewSet
@@ -53,7 +54,7 @@ urlpatterns = [
     path('contacts/', contacts, name='contacts'),
     path('accounts/register/', register, name='register'),
     path('accounts/profile/', profile, name='profile'),
-    path('accounts/login/', auth_views.LoginView.as_view(template_name='accounts/login.html'), name='login'),
+    path('accounts/login/', auth_views.LoginView.as_view(template_name='accounts/login.html', authentication_form=LoginForm), name='login'),
     path('accounts/logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('api/', include(router.urls)),
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
