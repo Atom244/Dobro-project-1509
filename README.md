@@ -25,6 +25,6 @@ python manage.py runserver
 
 ## Vercel
 
-`vercel.json` использует `@vercel/python` и WSGI-файл. В Vercel задайте `SECRET_KEY`, `DEBUG=False`, `ALLOWED_HOSTS` и PostgreSQL `DATABASE_URL`. После deploy выполните миграции через доступный production shell/CI. Serverless-файловая система Vercel эфемерна, поэтому загруженные файлы требуют внешнего хранилища; для production также рекомендуется отдельный хостинг статики.
+`vercel.json` использует serverless entrypoint `api/index.py` с `@vercel/python`. В настройках Vercel укажите корень репозитория (`./`), preset Django и передеплойте проект после добавления этих файлов. Задайте `SECRET_KEY`, `DEBUG=False`, `ALLOWED_HOSTS`, `CSRF_TRUSTED_ORIGINS` и PostgreSQL `DATABASE_URL`. После deploy выполните миграции через доступный production shell/CI. Serverless-файловая система Vercel эфемерна, поэтому загруженные файлы требуют внешнего хранилища; для production также рекомендуется отдельный хостинг статики.
 
 Данные команды `seed_demo` и контакт demo@example.org являются демонстрационными и не являются официальными сведениями.
