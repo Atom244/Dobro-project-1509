@@ -8,6 +8,10 @@ services:
     ports:
       - "8000:8000"
     env_file: .env
+    environment:
+      DATABASE_URL: postgresql://pravo_spb:change-me@postgres:5432/pravo_spb
+      DEBUG: "True"
+      ALLOWED_HOSTS: 127.0.0.1,localhost
     depends_on:
       postgres:
         condition: service_healthy
