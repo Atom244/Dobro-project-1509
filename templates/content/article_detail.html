@@ -1,0 +1,1 @@
+{% extends 'base.html' %}{% block content %}<article class="container narrow section"><a href="{% url 'rights' %}">← Все статьи</a><h1>{{article.title}}</h1><p class="muted">{{article.category}}</p><div class="article-content">{{article.content|linebreaks}}</div></article>{% endblock %}

@@ -1,0 +1,1 @@
+{% extends 'base.html' %}{% block content %}<div class="container section"><h1>Личный кабинет</h1><p>Здравствуйте, {{ user.first_name|default:user.username }}.</p><a class="btn btn-primary" href="{% url 'appeal-create' %}">Новое обращение</a><h2 class="mt-5">Мои обращения</h2>{% include 'appeals/table.html' with appeals=appeals %}</div>{% endblock %}

@@ -1,0 +1,28 @@
+# ПравоСПб
+
+Учебный Django-проект по задаче №1509: сервис о правах граждан, доступной среде и обращениях жителей Санкт-Петербурга.
+
+## Запуск локально
+
+```powershell
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+Copy-Item .env.example .env
+python manage.py migrate
+python manage.py seed_demo
+python manage.py createsuperuser
+python manage.py runserver
+```
+
+Основные адреса: `/`, `/appeals/`, `/parking/`, `/rights/`, `/news/`, `/faq/`, `/api/docs/`, `/admin/`.
+
+## Docker
+
+Создайте `.env` на основе `.env.example`, задайте `DATABASE_URL=postgresql://pravo_spb:change-me@postgres:5432/pravo_spb`, затем выполните `docker compose up --build`. Docker Desktop должен быть установлен; в текущей среде Docker не доступен.
+
+## Vercel
+
+`vercel.json` использует `@vercel/python` и WSGI-файл. В Vercel задайте `SECRET_KEY`, `DEBUG=False`, `ALLOWED_HOSTS` и PostgreSQL `DATABASE_URL`. После deploy выполните миграции через доступный production shell/CI. Serverless-файловая система Vercel эфемерна, поэтому загруженные файлы требуют внешнего хранилища; для production также рекомендуется отдельный хостинг статики.
+
+Данные команды `seed_demo` и контакт demo@example.org являются демонстрационными и не являются официальными сведениями.
